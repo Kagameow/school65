@@ -1,5 +1,5 @@
 <template>
-<btn-gen :data =
+  <q-btn>hgnhgnfcnh</q-btn>
 </template>
 
 <script>

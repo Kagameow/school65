@@ -1,8 +1,9 @@
+import MainLayout from "layouts/MainLayout";
 
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: MainLayout,
     children: [
       { path: '', component: () => import('pages/Index.vue') }
     ]

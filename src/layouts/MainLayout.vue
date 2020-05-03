@@ -1,25 +1,18 @@
 <template>
-  <q-layout view="hhh lpR fff">
+  <q-layout view="hHh lpR fff">
 
-    <q-header bordered class="bg-primary text-white">
-
-      <q-parallax
-        src="https://cdn.quasar.dev/img/parallax2.jpg"
-        :height="200"
-      >
-        <q-toolbar class="absolute-bottom">
+    <q-header class="elevated text-white transparent" style="backdrop-filter: blur(8px)">
+        <q-toolbar>
           <q-btn dense flat round icon="menu" @click="left = !left"/>
           <q-toolbar-title shrink>
             <q-avatar>
               <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
             </q-avatar>
-            Title
+            Школа №65
           </q-toolbar-title>
           <navbar>
           </navbar>
         </q-toolbar>
-      </q-parallax>
-
     </q-header>
 
     <q-drawer v-model="left" side="left" overlay bordered>
@@ -30,7 +23,7 @@
       <router-view/>
     </q-page-container>
 
-    <q-footer bordered class="bg-grey-8 text-white">
+    <q-footer class="text-white transparent">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
