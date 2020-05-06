@@ -1,7 +1,7 @@
 <template>
   <router-link :to="link.url">
     <template v-slot="props">
-      <q-btn rounded v-bind="buttonProps(props)"
+      <q-btn unelevated rounded v-bind="buttonProps(props)"
       >
         {{link.title}}
       </q-btn>
@@ -21,12 +21,11 @@
         buttonProps ({ href, isActive, isExactActive }) {
           const props = {
             to: href,
-            flat: true
           }
           if (isActive === true) {
-            // props.color = isExactActive === true ? 'primary' : 'amber-9'
-            props.flat = isExactActive !== true
-            props.outline = isExactActive === true
+            props.color = isExactActive === true ? 'accent' : 'amber-9'
+            // props.flat = isExactActive !== true
+            // props.outline = isExactActive === true
           }
           return props
         }

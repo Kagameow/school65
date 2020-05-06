@@ -12,11 +12,8 @@ export default {
 
 <style>
   body {
-    background-image: url("assets/city.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    position: static;
+    background: linear-gradient( #bbb, transparent 1px), linear-gradient( 90deg, #bbb, transparent 1px);
+    background-size: 20px 20px;
+    background-position: center center;
   }
 </style>
