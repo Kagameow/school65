@@ -1,12 +1,11 @@
 <template>
   <q-page class="flex flex-center">
-    <h3 class="text-white text-center">
+    <h3 class="text-center">
       Спеціалізована школа I-III ступенів № 65 м. Києва з поглибленим вивченням іноземних мов
-    </h3>>
+    </h3>
     <img
     alt="Quasar logo"
-    src="~assets/quasar-logo-full.svg"
-  >
+    src="../assets/logo_school.png">
   </q-page>
 </template>
 
