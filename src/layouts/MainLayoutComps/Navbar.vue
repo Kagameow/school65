@@ -1,7 +1,7 @@
 <template>
   <router-link :to="link.url">
     <template v-slot="props">
-      <q-btn unelevated rounded v-bind="buttonProps(props)"
+      <q-btn unelevated rounded class="text-weight-regular" v-bind="buttonProps(props)"
       >
         {{link.title}}
       </q-btn>
