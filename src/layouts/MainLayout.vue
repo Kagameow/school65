@@ -3,7 +3,7 @@
 
     <q-header class="elevated text-white">
       <q-toolbar>
-        <q-btn v-if="!isDesktop"  flat dense icon="menu" @click="left = !left"/>
+        <q-btn   flat dense icon="menu" @click="left = !left"/>
         <q-btn  flat dense icon="home" to="/"></q-btn>
         <q-toolbar-title>
 <!--          <q-avatar>-->
@@ -11,15 +11,15 @@
 <!--          </q-avatar>-->
         </q-toolbar-title>
         <div v-if="isDesktop">
-          <navbar v-for="link in links" :link="link" :key="link.title">
-          </navbar>
+<!--          <navbar v-for="link in links" :link="link" :key="link.title">-->
+<!--          </navbar>-->
         </div>
         <q-space v-if="isDesktop"/>
         <q-btn  flat dense icon="fab fa-facebook-square"/>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-if="!isDesktop" v-model="left" side="left" overlay bordered>
+    <q-drawer  v-model="left" side="left"  :breakpoint="1264" bordered>
       <navbar v-for="link in links" :link="link" :key="link.title">
       </navbar>
     </q-drawer>
