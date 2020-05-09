@@ -3,7 +3,7 @@
         <q-card-section class="bg-info text-white" align="center">
             <div class="text-h6">Шановні батьки майбутніх першокласників!</div>
         </q-card-section>
-        <q-card-section class="text-justify">
+        <q-card-section class="text-center">
             На виконання наказу Департаменту освіти і науки
             виконавчого органу Київської міської ради (Київської
             державної адміністрації) від 18.03.2020 №64 та наказу

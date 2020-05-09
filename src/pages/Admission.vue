@@ -1,18 +1,24 @@
 <template>
   <q-page padding>
-    <div class="row align-center justify-center">
-      <div class="col-xs-12 col-lg-8">
+    <div class="row q-col-gutter-md">
+      <div class="col-xs-12 col-sm-5 col-lg-3 q-col-gutter-y-md">
+        <div>
+          <QuarantineWarn/>
+        </div>
+        <div>
+          <ReceptionSchedule/>
+        </div>
+        <div>
+          <Forecast/>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-7 col-lg-9 q-col-gutter-y-md">
         <div class="row q-col-gutter-md">
-          <div class="col-xs-12 col-sm-4 q-col-gutter-y-md">
-            <div class="col-xs-12 col-sm-3">
-              <QuarantineWarn/>
-            </div>
-            <div class="col-xs-12 col-sm-4">
-              <ReceptionSchedule/>
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-8">
+          <div class="col-xs-12 col-lg-6">
             <ServiceArea/>
+          </div>
+          <div class="col-xs-12 col-lg-6">
+            <AdmissionFiles/>
           </div>
         </div>
       </div>
@@ -24,10 +30,12 @@
   import ServiceArea from "components/Admission/ServiceArea";
   import QuarantineWarn from "components/Admission/QuarantineWarn";
   import ReceptionSchedule from "components/Admission/ReceptionSchedule";
+  import AdmissionFiles from "components/Admission/AdmissionFiles";
+  import Forecast from "components/Admission/Forecast";
 
   export default {
     name: "Admission",
-    components: {ReceptionSchedule, QuarantineWarn, ServiceArea}
+    components: {Forecast, AdmissionFiles, ReceptionSchedule, QuarantineWarn, ServiceArea}
   }
 </script>
 
