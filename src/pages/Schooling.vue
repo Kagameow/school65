@@ -1,13 +1,19 @@
 <template>
-  <div>Schooling</div>
+  <q-page padding>
+    <div class="row q-col-gutter-md">
+      <div class="col-xs-12 col-lg-6">
+        <StructureOfYear/>
+      </div>
+    </div>
+  </q-page>
 </template>
 
 <script>
-    export default {
-        name: "Schooling"
-    }
+  import StructureOfYear from "components/Schooling/StructureOfYear";
+
+  export default {
+    name: "Schooling",
+    components: {StructureOfYear}
+  }
 </script>
 
-<style scoped>
-
-</style>
