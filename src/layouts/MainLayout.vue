@@ -1,34 +1,34 @@
 <template>
-  <q-layout view="hHh lpR lff">
+  <q-layout view="hHh lpR fff">
 
-    <q-header class="elevated text-white">
+    <q-header elevated class="text-white">
       <q-toolbar>
-        <q-btn   flat dense icon="menu" @click="left = !left"/>
-        <q-btn  flat dense icon="home" to="/"></q-btn>
+        <q-btn   flat icon="menu" @click="open = !open"/>
         <q-toolbar-title>
-<!--          <q-avatar>-->
-<!--            <img src="../assets/logo_school.png">-->
-<!--          </q-avatar>-->
+          <span v-if="isDesktop">Спеціалізована школа I-III ступенів № 65 м. Києва</span>
+          <span v-else>Школа № 65</span>
         </q-toolbar-title>
         <div v-if="isDesktop">
-<!--          <navbar v-for="link in links" :link="link" :key="link.title">-->
-<!--          </navbar>-->
         </div>
         <q-space v-if="isDesktop"/>
-        <q-btn  flat dense icon="fab fa-facebook-square"/>
+        <q-btn  flat icon="fab fa-facebook-square"/>
       </q-toolbar>
     </q-header>
 
-    <q-drawer  v-model="left" side="left"  :breakpoint="1264" bordered>
-      <navbar v-for="link in links" :link="link" :key="link.title">
-      </navbar>
+    <q-drawer v-model="open"
+              side="left"
+              :breakpoint="1264"
+              content-class="bg-grey-3"
+              bordered>
+    <drawer></drawer>
     </q-drawer>
+
 
     <q-page-container>
       <router-view/>
     </q-page-container>
 
-    <q-footer class="text-white">
+    <q-footer  elevated class="text-white">
       <q-toolbar>
 <!--        <q-toolbar-title>-->
 <!--          <q-avatar>-->
@@ -43,12 +43,12 @@
 </template>
 
 <script>
-  import Navbar from "./MainLayoutComps/Navbar";
+  import Drawer from "layouts/MainLayoutComps/Drawer";
 
   export default {
     data() {
       return {
-        left: false,
+        open: true,
         links: [
           {
             title: 'Розклад',
@@ -82,6 +82,6 @@
         return this.$q.platform.is.desktop
       }
     },
-    components: {Navbar}
+    components: {Drawer}
   }
 </script>

@@ -4,9 +4,10 @@ const routes = [
   {
     path: '/',
     component: MainLayout,
+    redirect: '/home',
     children: [
       {
-        path: '', component: () => import('pages/Index.vue')
+        path: '/home', component: () => import('pages/Index.vue')
       },
       {
         path: '/schedule', component: () => import('pages/Schedule.vue')
