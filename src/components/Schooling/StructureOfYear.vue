@@ -52,7 +52,7 @@
       </div>
       <div class="col-xs-12 col-lg-6">
     <q-card-section align="center">
-      <q-date minimal v-model="date"/>
+      <q-date minimal v-model="date" :events="events" :event-color="eventColor"/>
     </q-card-section>
         <q-card-section align="center">
           some text will be here
@@ -66,8 +66,34 @@
     name: 'StructureOfYear',
     data() {
       return {
-        date: '2019/01/01'
+        date: '2019/09/01',
+        firstOfSeptember: '2019/09/02',
+        firstHalfStart: '2019/09/02',
+        fallVacationStart: '2019/10/28',
+        fallVacationEnd: '2019/11/03',
+        firstHalfEnd: '2019/12/24',
+        winterVacationStart: '2019/12/25',
+        winterVacationEnd: '2020/01/12',
+        secondHalfStart: '2020/01/13',
+        springVacationStart: '2020/03/23',
+        springVacationEnd: '2020/03/29',
+        secondHalfEnd: '2020/05/29',
       }
-    }
+    },
+    methods: {
+      events(date) {
+        if (date >= this.firstHalfStart && date <= this.secondHalfEnd) {
+          return true;
+        }
+      },
+      eventColor(date){
+        if (date === this.firstOfSeptember){
+          return 'orange'
+        }
+        if (date >= this.fallVacationStart && date <= this.fallVacationEnd){
+          return 'red'
+        }
+      }
+    },
   }
 </script>
