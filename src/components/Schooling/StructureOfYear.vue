@@ -3,89 +3,68 @@
     <q-card-section class="bg-primary text-white" align="center">
       <div class="text-h6">Структура 2019-2020 навчального року</div>
     </q-card-section>
-    <div class="row q-col-gutter-md">
-      <div class="col-xs-12 col-lg-6">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
         <q-card-section>
-          У навчальному році передбачено п’ятиденний робочий тиждень.
-          Навчальні заняття організовані за семестровою системою, орієнтовно у такі терміни:
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label>2 вересня</q-item-label>
+                <q-item-label>{{periods.firstOfSeptember}}</q-item-label>
                 <q-item-label caption>свято День Знань</q-item-label>
               </q-item-section>
             </q-item>
             <q-item-label header>Навчальні заняття:</q-item-label>
             <q-item>
               <q-item-section>
-                <q-item-label>з 2 вересня по 24 грудня 2019 року</q-item-label>
+                <q-item-label>з {{periods.firstHalfStart}} по {{periods.firstHalfEnd}}</q-item-label>
                 <q-item-label caption>Перший семестр</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label>з 13 січня по 29 травня 2020 року</q-item-label>
+                <q-item-label>з {{periods.secondHalfStart}} по {{periods.secondHalfEnd}}</q-item-label>
                 <q-item-label caption>Другий семестр</q-item-label>
               </q-item-section>
             </q-item>
             <q-item-label header>Канікули:</q-item-label>
             <q-item>
               <q-item-section>
-                <q-item-label>з 28 жовтня по 03 листопада 2019 року</q-item-label>
+                <q-item-label>з {{periods.fallVacationStart}} по {{periods.fallVacationEnd}}</q-item-label>
                 <q-item-label caption>Осінні канікули</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label>з 25 грудня 2019 року по 12 січня 2020 року</q-item-label>
+                <q-item-label>з {{periods.winterVacationStart}} по {{periods.winterVacationEnd}}</q-item-label>
                 <q-item-label caption>Зимові канікули</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label>з 23 по 29 березня 2020 року</q-item-label>
+                <q-item-label>з {{periods.springVacationStart}} по {{periods.springVacationEnd}}</q-item-label>
                 <q-item-label caption>Весняні канікули</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
         </q-card-section>
       </div>
-      <div class="col-xs-12 col-lg-6">
+      <div class="col-xs-12 col-sm-6">
         <q-card-section align="center">
-          <q-date minimal v-model="date" :events="events" :event-color="eventColor" color="primary"/>
+          <q-date minimal flat v-model="date" :events="events" :event-color="eventColor" color="primary"/>
         </q-card-section>
         <q-card-section align="center">
-        <q-tab-panels
-          v-model="date"
-          animated
-          transition-next="slideInRight"
-          transition-prev="slideInLeft"
-        >
-          <q-tab-panel :name="date === periods.firstOfSeptember ? date : ''">
-            <p>{{date}}</p>
-          </q-tab-panel>
-          <q-tab-panel :name="date > periods.firstHalfStart && date < periods.fallVacationStart ? date : ''">
-            <p>{{date}}</p>
-          </q-tab-panel>
-          <q-tab-panel :name="date >= periods.fallVacationStart && date <= periods.fallVacationEnd ? date : ''">
-            <p>{{date}}</p>
-          </q-tab-panel>
-          <q-tab-panel :name="date > periods.fallVacationEnd && date <= periods.firstHalfEnd ? date : ''">
-            <p>{{date}}</p>
-          </q-tab-panel>
-          <q-tab-panel :name="date >= periods.winterVacationStart && date <= periods.winterVacationEnd ? date : ''">
-            <p>{{date}}</p>
-          </q-tab-panel>
-          <q-tab-panel :name="date > periods.winterVacationEnd && date < periods.springVacationStart ? date : ''">
-            <p>{{date}}</p>
-          </q-tab-panel>
-          <q-tab-panel :name="date >= periods.springVacationStart && date <= periods.springVacationEnd ? date : ''">
-            <p>{{date}}</p>
-          </q-tab-panel>
-          <q-tab-panel :name="date > periods.springVacationEnd && date <= periods.secondHalfEnd ? date : ''">
-            <p>{{date}}</p>
-          </q-tab-panel>
-        </q-tab-panels>
+          <transition
+            enter-active-class="animated flipInY"
+            leave-active-class="flipOutY"
+            mode="out-in"
+          >
+            <div key="firstSeptember" v-if="firstSeptemberPanel">Knowledge Day</div>
+            <div key="fall" v-if="fallVacationPanel">Fall Vacation</div>
+            <div key="winter" v-if="winterVacationPanel">Winter Vacation</div>
+            <div key="spring" v-if="springVacationPanel">Spring Vacation</div>
+            <div key="summer" v-if="summerVacationPanel">Summer Vacation</div>
+            <div key="study" v-else-if="studyDaysPanelElseIf">Study day</div>
+          </transition>
         </q-card-section>
       </div>
     </div>
@@ -98,6 +77,8 @@
       return {
         date: '2019/09/01',
         periods: {
+          pastSummerStart: '2019/06/01',
+          pastSummerEnd: '2019/09/01',
           firstOfSeptember: '2019/09/02',
           firstHalfStart: '2019/09/02',
           fallVacationStart: '2019/10/28',
@@ -108,13 +89,15 @@
           secondHalfStart: '2020/01/13',
           springVacationStart: '2020/03/23',
           springVacationEnd: '2020/03/29',
-          secondHalfEnd: '2020/05/29'
+          secondHalfEnd: '2020/05/29',
+          nextSummerStart: '2020/06/01',
+          nextSummerEnd: '2020/08/31'
         },
       }
     },
     methods: {
       events(date) {
-        if (date >= this.periods.firstHalfStart && date <= this.periods.secondHalfEnd) {
+        if (date >= this.periods.pastSummerStart && date <= this.periods.nextSummerEnd) {
           return true;
         }
       },
@@ -131,8 +114,33 @@
         if (date >= this.periods.springVacationStart && date <= this.periods.springVacationEnd) {
           return 'green'
         }
+        if (date >= this.periods.pastSummerStart && date <= this.periods.pastSummerEnd ||
+          date >= this.periods.nextSummerStart && date <= this.periods.nextSummerEnd){
+          return 'yellow'
+        }
         return 'primary'
-      }
+      },
+    },
+    computed: {
+      firstSeptemberPanel() {
+        return this.date === this.periods.firstOfSeptember;
+      },
+      fallVacationPanel() {
+        return this.date >= this.periods.fallVacationStart && this.date <= this.periods.fallVacationEnd
+      },
+      winterVacationPanel() {
+        return this.date >=  this.periods.winterVacationStart && this.date <= this.periods.winterVacationEnd
+      },
+      springVacationPanel() {
+        return this.date >= this.periods.springVacationStart && this.date <= this.periods.springVacationEnd
+      },
+      summerVacationPanel() {
+        return this.date >= this.periods.pastSummerStart && this.date <= this.periods.pastSummerEnd ||
+          this.date >= this.periods.nextSummerStart && this.date <= this.periods.nextSummerEnd
+      },
+      studyDaysPanelElseIf() {
+        return this.date >= this.periods.firstHalfStart && this.date <= this.periods.secondHalfEnd
+      },
     },
   }
 </script>
