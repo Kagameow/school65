@@ -1,10 +1,10 @@
 <template>
   <q-page padding>
     <div class="row q-col-gutter-md">
-      <div class="col-xs-12 col-lg-6">
+      <div class="col-xs-12 col-md-8 col-lg-6">
         <StructureOfYear/>
       </div>
-      <div class="col-xs-12 col-lg-5">
+      <div class="col-xs-12 col-md-4 col-lg-6">
         <SchoolingFiles/>
       </div>
     </div>

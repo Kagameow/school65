@@ -9,6 +9,10 @@
           <q-list>
             <q-item>
               <q-item-section>
+                <q-item-label>5 днів (Пн-Пт)</q-item-label>
+                <q-item-label caption>робочій тиждень</q-item-label>
+              </q-item-section>
+              <q-item-section>
                 <q-item-label>{{periods.firstOfSeptember}}</q-item-label>
                 <q-item-label caption>свято День Знань</q-item-label>
               </q-item-section>
@@ -30,7 +34,7 @@
             <q-item>
               <q-item-section>
                 <q-item-label>з {{periods.fallVacationStart}} по {{periods.fallVacationEnd}}</q-item-label>
-                <q-item-label caption>Осінні канікули</q-item-label>
+                <q-item-label caption >Осінні канікули</q-item-label>
               </q-item-section>
             </q-item>
             <q-item>
@@ -51,19 +55,34 @@
       <div class="col-xs-12 col-sm-6">
         <q-card-section align="center">
           <q-date minimal flat v-model="date" :events="events" :event-color="eventColor" color="primary"/>
-        </q-card-section>
-        <q-card-section align="center">
           <transition
             enter-active-class="animated flipInY"
             leave-active-class="flipOutY"
             mode="out-in"
           >
-            <div key="firstSeptember" v-if="firstSeptemberPanel">Knowledge Day</div>
-            <div key="fall" v-if="fallVacationPanel">Fall Vacation</div>
-            <div key="winter" v-if="winterVacationPanel">Winter Vacation</div>
-            <div key="spring" v-if="springVacationPanel">Spring Vacation</div>
-            <div key="summer" v-if="summerVacationPanel">Summer Vacation</div>
-            <div key="study" v-else-if="studyDaysPanelElseIf">Study day</div>
+            <div key="firstSeptember" class="text-purple-10" v-if="firstSeptemberPanel">
+              <div class="text-h4"><q-icon name="fas fa-graduation-cap"/></div>
+              <div class="text-h6">День знань</div>
+            </div>
+            <div key="fall" class="text-negative" v-if="fallVacationPanel">
+              <div class="text-h4"><q-icon name="fas fa-leaf"/></div>
+              <div class="text-h6">Осінні канікули</div>
+            </div>
+            <div key="winter" class="text-blue-10" v-if="winterVacationPanel">
+              <div class="text-h4"><q-icon name="far fa-snowflake"/></div>
+              <div class="text-h6">Зимові канікули</div>
+            </div>
+            <div key="spring" class="text-positive" v-if="springVacationPanel">
+              <div class="text-h4"><q-icon name="fas fa-seedling"/></div>
+              <div class="text-h6">Весняні канікули</div>
+            </div>
+            <div key="summer" class="text-amber-10" v-if="summerVacationPanel">
+              <div class="text-h4" ><q-icon name="fas fa-sun"/></div>
+              <div class="text-h6">Літні канікули</div>
+            </div>
+            <div key="study" v-else-if="studyDaysPanelElseIf">
+              <QuotesRandomizer/>
+            </div>
           </transition>
         </q-card-section>
       </div>
@@ -71,11 +90,15 @@
   </q-card>
 </template>
 <script>
+  import QuotesRandomizer from "components/Schooling/QuotesRandomizer";
+  import { date } from 'quasar'
+
   export default {
     name: 'StructureOfYear',
+    components: {QuotesRandomizer},
     data() {
       return {
-        date: '2019/09/01',
+        date: '',
         periods: {
           pastSummerStart: '2019/06/01',
           pastSummerEnd: '2019/09/01',
@@ -90,7 +113,7 @@
           springVacationStart: '2020/03/23',
           springVacationEnd: '2020/03/29',
           secondHalfEnd: '2020/05/29',
-          nextSummerStart: '2020/06/01',
+          nextSummerStart: '2020/05/30',
           nextSummerEnd: '2020/08/31'
         },
       }
@@ -103,20 +126,20 @@
       },
       eventColor(date) {
         if (date === this.periods.firstOfSeptember) {
-          return 'orange'
+          return 'purple-10'
         }
         if (date >= this.periods.fallVacationStart && date <= this.periods.fallVacationEnd) {
           return 'red'
         }
         if (date >= this.periods.winterVacationStart && date <= this.periods.winterVacationEnd) {
-          return 'blue'
+          return 'blue-10'
         }
         if (date >= this.periods.springVacationStart && date <= this.periods.springVacationEnd) {
           return 'green'
         }
         if (date >= this.periods.pastSummerStart && date <= this.periods.pastSummerEnd ||
-          date >= this.periods.nextSummerStart && date <= this.periods.nextSummerEnd){
-          return 'yellow'
+          date >= this.periods.nextSummerStart && date <= this.periods.nextSummerEnd) {
+          return 'amber-10'
         }
         return 'primary'
       },
@@ -126,21 +149,25 @@
         return this.date === this.periods.firstOfSeptember;
       },
       fallVacationPanel() {
-        return this.date >= this.periods.fallVacationStart && this.date <= this.periods.fallVacationEnd
+        return this.date >= this.periods.fallVacationStart && this.date <= this.periods.fallVacationEnd;
       },
       winterVacationPanel() {
-        return this.date >=  this.periods.winterVacationStart && this.date <= this.periods.winterVacationEnd
+        return this.date >= this.periods.winterVacationStart && this.date <= this.periods.winterVacationEnd;
       },
       springVacationPanel() {
-        return this.date >= this.periods.springVacationStart && this.date <= this.periods.springVacationEnd
+        return this.date >= this.periods.springVacationStart && this.date <= this.periods.springVacationEnd;
       },
       summerVacationPanel() {
         return this.date >= this.periods.pastSummerStart && this.date <= this.periods.pastSummerEnd ||
-          this.date >= this.periods.nextSummerStart && this.date <= this.periods.nextSummerEnd
+          this.date >= this.periods.nextSummerStart && this.date <= this.periods.nextSummerEnd;
       },
       studyDaysPanelElseIf() {
-        return this.date >= this.periods.firstHalfStart && this.date <= this.periods.secondHalfEnd
-      },
+        return this.date > this.periods.firstHalfStart && this.date <= this.periods.secondHalfEnd;
+      }
     },
+    created() {
+      let timeStamp = Date.now()
+      this.date = date.formatDate(timeStamp, 'YYYY/MM/DD')
+    }
   }
 </script>
