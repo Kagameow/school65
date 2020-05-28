@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import BellsSchedule from "pages/BellsSchedule";
+  import BellsSchedule from "components/Schedule/BellsSchedule";
 
   export default {
         name: "Schedule",
