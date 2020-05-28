@@ -39,9 +39,7 @@
           '11:35 - 12:20',
           '12:30 - 13:15',
           '13:25 - 14:10',
-          '14:15 - 15:00',
-          '21:20 - 21:40',
-          '21:42 - 21:45'
+          '14:15 - 15:00'
         ]
       }
     },
@@ -70,7 +68,8 @@
           this.activeLesson = 0;
           return false;
         }
-        if(this.currentTime > lessonEnd && !nextBell){
+        const firstBell = this.bells[0].split(' - ')[0];
+        if(this.currentTime > lessonEnd && this.currentTime < firstBell){
           this.isLessons = false;
           return false;
         }
@@ -80,8 +79,7 @@
       setInterval(() => {
           let date = new Date();
           this.currentTime = this.timeFormatter(date.getHours()) + ':' + this.timeFormatter(date.getMinutes());
-        }
-        , 1000)
+        }, 1000)
     }
   }
 </script>
