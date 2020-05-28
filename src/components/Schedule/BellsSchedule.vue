@@ -4,9 +4,27 @@
       <div class="text-h6">Розклад дзвінків</div>
     </q-card-section>
     <q-card-section>
-      <div v-if="!activeLesson && isLessons">Зараз перерва</div>
-      <div v-if="activeLesson && isLessons">Зараз {{activeLesson}} урок!</div>
-      <div v-if="!activeLesson && !isLessons">Уроки ще не почалися</div>
+      <transition enter-active-class="animated flipInY"
+                  leave-active-class="flipOutY"
+                  mode="out-in"
+      >
+      <div v-if="activeLesson && isLessons" class="text-h6" key="lesson">
+        <div class="text-h4" ><q-icon name="fas fa-chalkboard-teacher"/></div>
+        Зараз {{activeLesson}} урок!
+      </div>
+      <div v-if="!activeLesson && isLessons" class="text-positive text-h6" key="break">
+        <div class="text-h4" ><q-icon name="fas fa-mug-hot"/></div>
+        Зараз перерва!
+      </div>
+      <div v-if="!activeLesson && !isLessons && endedForToday" class="text-amber-10  text-h6" key="ended">
+        <div class="text-h4" ><q-icon name="fas fa-laugh-beam"/></div>
+        Уроки закінчилися!
+      </div>
+      <div v-if="!activeLesson && !isLessons && !endedForToday" class="text-blue-10 text-h6" key="notStarted">
+        <div class="text-h4" ><q-icon name="fas fa-bed"/></div>
+        Уроки ще не почалися
+      </div>
+      </transition>
     </q-card-section>
     <q-list separator>
       <q-item v-for="(bell,index) in bells"
@@ -39,8 +57,13 @@
           '11:35 - 12:20',
           '12:30 - 13:15',
           '13:25 - 14:10',
-          '14:15 - 15:00'
+          '14:15 - 15:00',
         ]
+      }
+    },
+    computed: {
+      endedForToday() {
+        return this.currentTime > this.bells[0].split(' - ')[0];
       }
     },
     methods: {
@@ -69,16 +92,19 @@
           return false;
         }
         const firstBell = this.bells[0].split(' - ')[0];
-        if(this.currentTime > lessonEnd && this.currentTime < firstBell){
+        const lastBell = this.bells[this.bells.length-1].split(' - ')[1];
+
+        if(this.currentTime >= lastBell || this.currentTime < firstBell){
           this.isLessons = false;
+          this.activeLesson = 0;
           return false;
         }
       }
     },
     created() {
       setInterval(() => {
-          let date = new Date();
-          this.currentTime = this.timeFormatter(date.getHours()) + ':' + this.timeFormatter(date.getMinutes());
+        let date = new Date();
+        this.currentTime = this.timeFormatter(date.getHours()) + ':' + this.timeFormatter(date.getMinutes());
         }, 1000)
     }
   }
