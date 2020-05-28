@@ -4,21 +4,20 @@
       <div class="text-h6">Розклад дзвінків</div>
     </q-card-section>
     <q-card-section>
-      <div v-if="!activeLessonNo && isLessons">Зараз перерва</div>
-      <div v-if="activeLessonNo && isLessons">Зараз {{activeLessonNo}} урок!</div>
-      <div v-if="!activeLessonNo && !isLessons">Уроки ще не почалися</div>
+      <div v-if="!activeLesson && isLessons">Зараз перерва</div>
+      <div v-if="activeLesson && isLessons">Зараз {{activeLesson}} урок!</div>
+      <div v-if="!activeLesson && !isLessons">Уроки ще не почалися</div>
     </q-card-section>
     <q-list separator>
       <q-item v-for="(bell,index) in bells"
-              :key="bell.lessonStartHours"
-              :active="active(bell, index)"
+              :key="bell"
+              :active="currentBell(index)"
               active-class="bg-info text-white">
         <q-item-section avatar>
           <div class="text-bold">{{index+1}}</div>
         </q-item-section>
         <q-item-section>
-          {{timeFormatter(bell.lessonStartHours)}}:{{timeFormatter(bell.lessonStartMinutes)}} -
-          {{timeFormatter(bell.lessonEndHours)}}:{{timeFormatter(bell.lessonEndMinutes)}}
+          {{bell}}
         </q-item-section>
       </q-item>
     </q-list>
@@ -30,56 +29,22 @@
     name: 'BellsSchedule',
     data() {
       return {
-        now: new Date(),
-        activeLessonNo: 0,
+        currentTime: '',
+        activeLesson: 0,
         isLessons: false,
-        bells: [
-          {
-            lessonStartHours: 8,
-            lessonStartMinutes: 30,
-            lessonEndHours: 9,
-            lessonEndMinutes: 15,
-          },
-          {
-            lessonStartHours: 9,
-            lessonStartMinutes: 25,
-            lessonEndHours: 10,
-            lessonEndMinutes: 10,
-          },
-          {
-            lessonStartHours: 10,
-            lessonStartMinutes: 30,
-            lessonEndHours: 11,
-            lessonEndMinutes: 15,
-          },
-          {
-            lessonStartHours: 11,
-            lessonStartMinutes: 35,
-            lessonEndHours: 12,
-            lessonEndMinutes: 20,
-          },
-          {
-            lessonStartHours: 12,
-            lessonStartMinutes: 30,
-            lessonEndHours: 13,
-            lessonEndMinutes: 15,
-          },
-          {
-            lessonStartHours: 13,
-            lessonStartMinutes: 25,
-            lessonEndHours: 14,
-            lessonEndMinutes: 10,
-          },
-          {
-            lessonStartHours: 14,
-            lessonStartMinutes: 15,
-            lessonEndHours: 15,
-            lessonEndMinutes: 0,
-          },
+        bells:[
+          '08:30 - 09:15',
+          '09:25 - 10:10',
+          '10:30 - 11:15',
+          '11:35 - 12:20',
+          '12:30 - 13:15',
+          '13:25 - 14:10',
+          '14:15 - 15:00',
+          '21:20 - 21:40',
+          '21:42 - 21:45'
         ]
       }
     },
-    computed: {},
     methods: {
       timeFormatter(number) {
         if (number.toString().length < 2) {
@@ -87,53 +52,34 @@
         }
         return number;
       },
-      active(bell, index) {
-
-        let currHour = this.now.getHours();
-        let currMinutes = this.now.getMinutes();
-
-        // let endHours = bell.lessonEndHours === 0 ? 24 : bell.lessonEndHours;
-        // let endMinutes = bell.lessonEndMinutes === 0 ? 60 : bell.lessonEndMinutes;
-
-        const lessonsStartHour = this.bells[0].lessonStartHours;
-        const lessonsStartMinutes = this.bells[0].lessonStartMinutes;
-
-        const lessonsEndHour = this.bells[this.bells.length - 1].lessonEndHours;
-        const lessonsEndMinutes = this.bells[this.bells.length - 1].lessonEndMinutes;
-        if (currHour >= lessonsStartHour && currHour <= lessonsEndHour) {
-          if (
-            (currHour === lessonsEndHour && currMinutes < lessonsEndMinutes) ||
-            (lessonsStartHour < currHour && currHour < lessonsEndHour) ||
-            (currHour === lessonsStartHour && currMinutes >= lessonsStartMinutes)
-          ) {
-            this.isLessons = true;
-            if (currHour >= bell.lessonStartHours && currHour <= bell.lessonEndHours) {
-              if (
-                (currHour === bell.lessonStartHours && currMinutes >= bell.lessonStartMinutes) ||
-                (currHour === bell.lessonEndHours && currMinutes < bell.lessonEndMinutes)
-              ) {
-                this.activeLessonNo = index + 1;
-                return true;
-              } else {
-                return false;
-              }
-            }
-          } else {
-            this.isLessons = false;
-            this.activeLessonNo = 0;
-          }
-        } else {
-          this.isLessons = false;
-          this.activeLessonNo = 0;
+      currentBell(index){
+         const splittedBell = this.bells[index].split(' - ');
+         const lessonBegin = splittedBell[0];
+         const lessonEnd = splittedBell[1];
+        if(this.currentTime >= lessonBegin && this.currentTime < lessonEnd){
+          this.isLessons = true;
+          this.activeLesson = index + 1;
+          return true;
         }
-        console.log(0)
+        const nextBell = this.bells[index + 1];
+        if(!nextBell){ return; }
+        const splittedNextBell = nextBell.split(' - ');
+        const nextLessonBegin = splittedNextBell[0];
+        if(this.currentTime >= lessonEnd && this.currentTime < nextLessonBegin){
+          this.isLessons = true;
+          this.activeLesson = 0;
+          return false;
+        }
+        if(this.currentTime > lessonEnd && !nextBell){
+          this.isLessons = false;
+          return false;
+        }
       }
     },
     created() {
-      console.log(this.now)
       setInterval(() => {
-          //this.now = new Date('May 28, 2020 07:16:00');
-          this.now = new Date()
+          let date = new Date();
+          this.currentTime = this.timeFormatter(date.getHours()) + ':' + this.timeFormatter(date.getMinutes());
         }
         , 1000)
     }
