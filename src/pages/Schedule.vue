@@ -2,11 +2,7 @@
     <q-page padding>
       <div class="row q-col-gutter-md">
         <div class="col-xs-12 col-md-8 col-lg-10">
-          <q-card align="center">
-            <q-card-section class="bg-primary text-white">
-              <div class="text-h6">Територія обслуговування СШ №65</div>
-            </q-card-section>
-          </q-card>
+          <LessonsSchedule/>
         </div>
         <div class="col-xs-12 col-md-4 col-lg-2">
           <BellsSchedule/>
@@ -17,10 +13,11 @@
 
 <script>
   import BellsSchedule from "components/Schedule/BellsSchedule";
+  import LessonsSchedule from "components/Schedule/LessonsSchedule";
 
   export default {
         name: "Schedule",
-      components: {BellsSchedule}
+      components: {LessonsSchedule, BellsSchedule}
     }
 </script>
 
