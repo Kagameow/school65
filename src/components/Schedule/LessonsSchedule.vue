@@ -3,10 +3,24 @@
   <q-card>
     <q-card-section class="bg-primary text-white q-pa-sm">
       <q-toolbar class="bg-primary text-white">
-        <q-toolbar-title class="text-h6">
+        <q-toolbar-title class="gt-xs text-h6">
           Розклад занять {{chosenYear}}-{{chosenGroup}} класу
-        </q-toolbar-title>
-        <q-btn-dropdown class="q-mr-xs" color="primary" :label="chosenYear">
+        </q-toolbar-title> <!-- NOT vertical mobile -->
+        <q-space class="xs"></q-space> <!-- vertical mobile only-->
+        <q-btn-dropdown  class="xs q-mr-xs" color="primary" :label="chosenDay"> <!-- vertical mobile only-->
+          <q-list>
+            <q-item
+              v-for="(dayContent, dayKey) in schedule[chosenYear][chosenGroup]" :key="dayKey"
+              clickable
+              v-close-popup
+              @click="chosenDay = dayKey">
+              <q-item-section>
+                <q-item-label>{{dayKey}}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+        <q-btn-dropdown  class="q-mr-xs" color="primary" :label="chosenYear">
           <q-list>
             <q-item
               v-for="(yearContent, yearKey) in schedule" :key="yearKey"
@@ -32,12 +46,13 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
+        <q-space class="xs"></q-space> <!-- vertical mobile only-->
       </q-toolbar>
     </q-card-section>
     <div class="row" align="center">
       <div v-for="(day, dayName) in schedule[chosenYear][chosenGroup]"
            :key="dayName"
-           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-grow">
+           class="gt-xs q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-grow"> <!-- NOT vertical mobile -->
         <q-card flat bordered class="q-my-xs">
           <q-card-section class="text-bold text-uppercase bg-grey-2">
             {{dayName}}
@@ -46,6 +61,24 @@
         <q-card flat bordered class="bg-grey-1">
           <q-list separator>
             <q-item v-for="(lesson, index) in day"
+                    :key="lesson"
+                    active-class="bg-info text-white">
+              <q-item-section side>
+                <div class="text-bold">{{index+1}}</div>
+              </q-item-section>
+              <q-item-section>
+                {{lesson}}
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card>
+      </div>
+      <div class="xs q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-grow"> <!-- vertical mobile only-->
+        <q-card flat
+                bordered
+                class="bg-grey-1">
+          <q-list separator>
+            <q-item v-for="(lesson, index) in schedule[chosenYear][chosenGroup][chosenDay]"
                     :key="lesson"
                     active-class="bg-info text-white">
               <q-item-section side>
@@ -68,6 +101,7 @@
       return {
         chosenYear: '8',
         chosenGroup: 'Б',
+        chosenDay: 'Понеділок',
         schedule: {
           '1': {},
           '2': {},
@@ -121,6 +155,11 @@
           this.chosenGroup = 'А';
         }
         this.chosenYear = yearKey
+      }
+    },
+    computed: {
+      isDesktop() {
+        return this.$q.screen.lt.sm;
       }
     },
   }
