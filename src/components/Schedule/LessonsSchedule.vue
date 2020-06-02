@@ -6,8 +6,7 @@
         <q-toolbar-title class="gt-xs text-h6">
           Розклад занять {{chosenYear}}-{{chosenGroup}} класу
         </q-toolbar-title> <!-- NOT vertical mobile -->
-        <q-space class="xs"></q-space> <!-- vertical mobile only-->
-        <q-btn-dropdown  class="xs q-mr-xs" color="primary" :label="chosenDay"> <!-- vertical mobile only-->
+        <q-btn-dropdown  dense flat class="xs q-mr-xs" color="" :label="chosenDay"> <!-- vertical mobile only-->
           <q-list>
             <q-item
               v-for="(dayContent, dayKey) in schedule[chosenYear][chosenGroup]" :key="dayKey"
@@ -20,7 +19,8 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-        <q-btn-dropdown  class="q-mr-xs" color="primary" :label="chosenYear">
+        <q-space class="xs"></q-space> <!-- vertical mobile only-->
+        <q-btn-dropdown  dense flat class="q-mr-xs" color="white" :label="chosenYear">
           <q-list>
             <q-item
               v-for="(yearContent, yearKey) in schedule" :key="yearKey"
@@ -33,7 +33,7 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-        <q-btn-dropdown color="primary" :label="chosenGroup">
+        <q-btn-dropdown dense flat color="" :label="chosenGroup">
           <q-list>
             <q-item
               v-for="(groupContent, groupKey) in schedule[chosenYear]" :key="groupKey"
@@ -46,7 +46,6 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-        <q-space class="xs"></q-space> <!-- vertical mobile only-->
       </q-toolbar>
     </q-card-section>
     <div class="row" align="center">
@@ -158,7 +157,7 @@
       }
     },
     computed: {
-      isDesktop() {
+      isMobile() {
         return this.$q.screen.lt.sm;
       }
     },
