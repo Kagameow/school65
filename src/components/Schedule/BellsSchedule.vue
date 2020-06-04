@@ -80,6 +80,7 @@
         if(this.currentTime >= lessonBegin && this.currentTime < lessonEnd){
           this.isLessons = true;
           this.activeLesson = index + 1;
+          this.$emit('currentLessonWatcher', this.activeLesson)
           return true;
         }
         const nextBell = this.bells[index + 1];
@@ -89,6 +90,7 @@
         if(this.currentTime >= lessonEnd && this.currentTime < nextLessonBegin){
           this.isLessons = true;
           this.activeLesson = 0;
+          this.$emit('currentLessonWatcher', this.activeLesson)
           return false;
         }
         const firstBell = this.bells[0].split(' - ')[0];
@@ -97,16 +99,15 @@
         if(this.currentTime >= lastBell || this.currentTime < firstBell){
           this.isLessons = false;
           this.activeLesson = 0;
+          this.$emit('currentLessonWatcher', this.activeLesson)
           return false;
         }
       }
     },
     created() {
       setInterval(() => {
-        // let date = new Date();
-        let date = new Date('December 18, 2020 11:45:00')
+        let date = new Date();
         this.currentTime = this.timeFormatter(date.getHours()) + ':' + this.timeFormatter(date.getMinutes());
-        this.$emit('currentLessonWatcher', this.activeLesson)
         }, 1000)
     }
   }
