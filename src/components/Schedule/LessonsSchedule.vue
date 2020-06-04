@@ -53,7 +53,8 @@
            :key="dayName"
            class="gt-xs q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-grow"> <!-- NOT vertical mobile -->
         <q-card flat bordered class="q-my-xs">
-          <q-card-section class="text-bold text-uppercase bg-grey-2">
+          <q-card-section class="text-bold text-uppercase"
+                          :class="dayName === currentDay ? ['bg-info', 'text-white'] : 'bg-grey-2'">
             {{dayName}}
           </q-card-section>
         </q-card>
@@ -101,6 +102,7 @@
         chosenYear: '8',
         chosenGroup: 'Б',
         chosenDay: 'Понеділок',
+        currentDay: '',
         schedule: {
           '1': {},
           '2': {},
@@ -161,5 +163,12 @@
         return this.$q.screen.lt.sm;
       }
     },
+    created() {
+      const date = new Date();
+      this.currentDay = new Intl.DateTimeFormat('uk-UA', { weekday: 'long'}).format(date);
+      this.currentDay = this.currentDay.charAt(0).toUpperCase() + this.currentDay.slice(1);
+      console.log(this.currentDay);
+      this.chosenDay = this.currentDay;
+    }
   }
 </script>
