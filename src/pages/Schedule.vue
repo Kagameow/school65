@@ -1,14 +1,14 @@
 <template>
-    <q-page padding>
-      <div class="row q-col-gutter-md">
-        <div class="col-xs-12 col-md-8 col-lg-10">
-          <LessonsSchedule/>
-        </div>
-        <div class="col-xs-12 col-md-4 col-lg-2">
-          <BellsSchedule/>
-        </div>
+  <q-page padding>
+    <div class="row q-col-gutter-md">
+      <div class="col-xs-12 col-md-8 col-lg-10">
+        <LessonsSchedule :currentLesson="currentLesson"/>
       </div>
-    </q-page>
+      <div class="col-xs-12 col-md-4 col-lg-2">
+        <BellsSchedule @currentLessonWatcher="currentLesson = $event"/>
+      </div>
+    </div>
+  </q-page>
 </template>
 
 <script>
@@ -16,8 +16,13 @@
   import LessonsSchedule from "components/Schedule/LessonsSchedule";
 
   export default {
-        name: "Schedule",
-      components: {LessonsSchedule, BellsSchedule}
-    }
+    name: "Schedule",
+    components: {LessonsSchedule, BellsSchedule},
+    data() {
+      return {
+        currentLesson: 0,
+      }
+    },
+  }
 </script>
 

@@ -62,8 +62,10 @@
           <q-list separator>
             <q-item v-for="(lesson, index) in day"
                     :key="lesson"
-                    active-class="bg-info text-white">
-              <q-item-section side>
+                    active-class="bg-info text-white"
+                    :active="currentLesson === index+1 && dayName === currentDay">
+              <q-item-section side
+                              :class="currentLesson === index+1 && dayName === currentDay ? 'text-white' : ''">
                 <div class="text-bold">{{index+1}}</div>
               </q-item-section>
               <q-item-section>
@@ -80,8 +82,12 @@
           <q-list separator>
             <q-item v-for="(lesson, index) in schedule[chosenYear][chosenGroup][chosenDay]"
                     :key="lesson"
-                    active-class="bg-info text-white">
-              <q-item-section side>
+                    active-class="text-bold"
+                    :active="currentLesson === index+1 && chosenDay === currentDay"
+            >
+              <q-item-section side
+                              :class="currentLesson === index+1 && dayName === currentDay ? 'text-white' : ''"
+              >
                 <div class="text-bold">{{index+1}}</div>
               </q-item-section>
               <q-item-section>
@@ -97,6 +103,12 @@
 <script>
   export default {
     name: 'LessonsSchedule',
+    props: {
+      currentLesson: {
+        type: Number,
+        default: 0
+      },
+    },
     data() {
       return {
         chosenYear: '8',
@@ -169,6 +181,7 @@
       this.currentDay = this.currentDay.charAt(0).toUpperCase() + this.currentDay.slice(1);
       console.log(this.currentDay);
       this.chosenDay = this.currentDay;
+      console.log(this.currentLesson)
     }
   }
 </script>

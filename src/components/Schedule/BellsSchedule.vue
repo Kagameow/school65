@@ -103,8 +103,10 @@
     },
     created() {
       setInterval(() => {
-        let date = new Date();
+        // let date = new Date();
+        let date = new Date('December 18, 2020 11:45:00')
         this.currentTime = this.timeFormatter(date.getHours()) + ':' + this.timeFormatter(date.getMinutes());
+        this.$emit('currentLessonWatcher', this.activeLesson)
         }, 1000)
     }
   }
