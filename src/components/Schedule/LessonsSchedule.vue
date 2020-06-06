@@ -180,7 +180,9 @@
       this.currentDay = new Intl.DateTimeFormat('uk-UA', { weekday: 'long'}).format(date);
       this.currentDay = this.currentDay.charAt(0).toUpperCase() + this.currentDay.slice(1);
       console.log(this.currentDay);
-      this.chosenDay = this.currentDay;
+      if(this.currentDay !== "Субота" && this.currentDay !== "Неділя") {
+        this.chosenDay = this.currentDay;
+      }
       console.log(this.currentLesson)
     }
   }
