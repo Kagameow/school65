@@ -11,7 +11,11 @@
         <div v-if="isDesktop">
         </div>
         <q-space v-if="isDesktop"/>
-        <q-btn  flat icon="fab fa-facebook-square"/>
+        <q-btn  href="https://www.facebook.com/school65.kiev.ua/"
+                type="a"
+                flat
+                icon="fab fa-facebook-square"
+                target="_blank"/>
       </q-toolbar>
     </q-header>
 
